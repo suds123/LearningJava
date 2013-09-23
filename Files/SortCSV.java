@@ -24,16 +24,13 @@ class CSVFile {
 	public CSVFile(String file) throws IOException{
 		records = new ArrayList<String[]>();
 		fileName = file;
-		BufferedReader in = new BufferedReader(new FileReader(file));
-		try {
+		try(BufferedReader in = new BufferedReader(new FileReader(file)))
+		{
 			String ln;
 			while( (ln = in.readLine()) !=null) {
 				colsCount = ln.split("\t").length; //FIXME
 				records.add(ln.split("\t"));
 			}
-		}
-		finally {
-			in.close();
 		}
 	}
 	
@@ -47,18 +44,14 @@ class CSVFile {
 	}
 	
 	public void save() throws IOException{
-		BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
-		
-		try {
+		try(BufferedWriter out = new BufferedWriter(new FileWriter(fileName)))
+		{
 			for(String[] arr : records){
 				for (String s:arr) {
 					out.write(s+"\t");
 				}
 				out.write("\n");
 			}
-		}
-		finally {
-			out.close();
 		}
 	}
 	
